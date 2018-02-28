@@ -1,41 +1,34 @@
+{% load static %}
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Equipment Rentals</title>
+	<title>{% block title %}Lobster Equipment Rentals and Sales{% endblock %}</title>
+	<link rel="stylesheet" href="{% static 'css/geekBase.css' %}">
 </head>
 <body>
-	<article>
-		<h1> Equipment Rentals and Sales</h1>
-		<h3>All your equipment needs for Construction, General Contractors, or Home renovations</h3>
-		<p>Great Deals on equipment rentals and sales.</p>
-	</article>
-	<section>
-		<nav>
-			<ul>
-				<li><a href="">Home</a></li>
-				<ul></ul>
-				<li><a href="">Shop</a>
-					<ul>
-						<li>Categories
-							<ul>
-								<li> <!-- product.category --></li>
-								<li>List</li>
-								<li>Of</li>
-								<li>Categories</li>
-							</ul>
-						</li>
-					</ul>
-				</li>
-				<li><a href="">Rentals</a>
-					<ul>
-						<li>Products</li>
-						<li>Rental form Request</li>
-					</ul>
-				</li>
-				<li><a href="">About Us</a></li>
-			</ul>
-		</nav>
-	</section>
-	<section id="product-scroll"></section>
+	<div id="header">
+		<a href="/" class="logo">Home</a>
+		<a href="{% url 'contact:contact' %}" class="logo">Contact Us</a>
+		<a href="{% url 'about:basic' %}" class="logo">About Us</a>
+		
+	</div>
+	<div id="subheader">
+		<div class="cart">
+			{% with total_items=cart|length %}
+				{% if cart|length > 0 %}
+					Your cart:
+					<a href="{% url "cart:cart_detail" %}">
+						{{ total_items }} item {{ total_items|pluralize }}, ${{ cart.get_total_price }}
+					</a>
+				{% else %}
+					Your cart is empty.
+				{% endif %}
+			{% endwith %}
+		</div>
+	</div>
+	<div id="content">
+		{% block content %}
+		{% endblock %}
+	</div>
 </body>
 </html>
